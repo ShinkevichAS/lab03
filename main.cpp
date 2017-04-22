@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <cassert>
 using namespace std;
 struct Temperature {
     double value;
@@ -44,12 +46,23 @@ Temperature convert(const Temperature &from, char to) {
             converted = 9*(K - 273,15)/5 + 32;
             break;
         case 'C':
-            converted = K - 273;
+            converted = K - 273,15;
     }
     Temperature temperature;
     temperature.scale = to;
     temperature.value = converted;
     return temperature;
+}
+bool isLess(Temperature temperature_1, Temperature temperature_2) {
+    temperature_1 = convert(temp1, 'K');
+    temperature_2 = convert(temp2, 'K');
+    if (temp1.value < temp2.value) {
+        flag = true;
+    }
+    else {
+        flag = false;
+    }
+    return flag;
 }
 int main() {
     Temperature temperature;
