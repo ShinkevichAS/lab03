@@ -5,14 +5,17 @@ struct Temperature {
     double value;
     char scale;
 };
+istream& operator>>(istream& stream, Temperature& temperature) {
+    stream >> temperature.value >> temperature.scale;
+}
 int main() {
     size_t number_count;
     cerr << "Enter number count: ";
     cin >> number_count;
-    cerr << "Enter numbers: ";
-    vector<double> numbers(number_count);
-    for (size_t i = 0; i < number_count; i++) {
-        cin >> numbers[i];
+    vector<Temperature> Temp[number_count];
+    cerr<<"\nEnter an array of temperatures:";
+    for(size_t i = 0; i < number_count; i++) {
+        cin >> Temp[i];
     }
     size_t column_count;
     cerr << "Enter column count: ";
