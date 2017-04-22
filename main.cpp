@@ -23,6 +23,34 @@ void test_temperature_input() {
     assert (temperature.value == 10);
     assert (temperature.scale == 'C');
 }
+Temperature convert(const Temperature &from, char to) {
+    double K, converted;
+    switch (from.scale) {
+        case 'K':
+            K = from.value;
+            break;
+        case 'F':
+            K = 5*(from.value - 32)/9 + 273,15;
+            break;
+        case 'C':
+            K = from.value + 273,15;
+            break;
+    }
+    switch (to) {
+        case 'K':
+            converted = K;
+            break;
+        case 'F':
+            converted = 9*(K - 273,15)/5 + 32;
+            break;
+        case 'C':
+            converted = K - 273;
+    }
+    Temperature temperature;
+    temperature.scale = to;
+    temperature.value = converted;
+    return temperature;
+}
 int main() {
     Temperature temperature;
     size_t number_count;
