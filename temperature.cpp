@@ -58,3 +58,14 @@ void test_temperature_input() {
     assert (temperature.value == 10);
     assert (temperature.scale == 'C');
 }
+bool test (Temperature input) {
+    bool check = true;
+    if ((input.scale != 'K') && (input.scale != 'F') && (input.scale != 'C')) {
+        check= false;
+    }
+    convert (input, 'K');
+    if (input.value < (-273,15)) {
+        check = false;
+    }
+    return check;
+}
