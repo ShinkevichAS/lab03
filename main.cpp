@@ -71,6 +71,10 @@ int main() {
     cerr<<"\nEnter an array of temperatures:";
     for(size_t i = 0; i < number_count; i++) {
         cin >> numbers[i];
+        if (test == false) {
+            cout << "\nIncorrect temperature!\n";
+            break; //или return 0?
+        }
     }
     size_t column_count;
     cerr << "Enter basket count: ";
