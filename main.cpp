@@ -3,11 +3,8 @@
 #include <sstream>
 #include <cassert>
 #include <cmath>
+#include "temperature.h"
 using namespace std;
-struct Temperature {
-    double value;
-    char scale;
-};
 istream& operator>>(istream& stream, Temperature& temperature) {
     stream >> temperature.value >> temperature.scale;
 }
