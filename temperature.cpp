@@ -26,6 +26,7 @@ Temperature convert(const Temperature &from, char to) {
             break;
         case 'C':
             converted = K - 273,15;
+            break;
     }
     Temperature temperature;
     temperature.scale = to;
