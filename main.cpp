@@ -30,11 +30,6 @@ int main() {
             max = current_number;
         }
     }
-    for (size_t i = 0; i < number_count; i++) {
-        if (numbers[i].scale != 'K') {
-            (numbers[i], 'K');
-        }
-    }
     vector <size_t> counts(column_count);
     for (Temperature number : temperatures) {
         double current_number = convert(number, 'K').value;
