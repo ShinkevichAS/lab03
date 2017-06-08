@@ -1,44 +1,33 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include <cassert>
-#include <cmath>
 #include "temperature.h"
 using namespace std;
 int main() {
-    size_t number_count;
-    cerr << "Enter number count: ";
-    cin >> number_count;
-    vector <Temperature> numbers[number_count];
+    size_t temperature_count;
+    cerr << "Enter temperature count: ";
+    cin >> temperature_count;
+    vector <Temperature> temperatures[temperature_count];
     cerr << "\nEnter an array of temperatures:";
-    for (size_t i = 0; i < number_count; i++) {
-        cin >> numbers[i];
-        if (test == false) {
+    for (size_t i = 0; i < temperature_count; i++) {
+        cin >> temperatures[i];
+        if (test(temperature[i]) == false) {
             cout << "\nIncorrect temperature!\n";
-            break;
+            return 0;
         }
     }
     size_t column_count;
-    cerr << "Enter basket count: ";
+    cerr << "Enter column count: ";
     cin >> column_count;
-    if (column_count == 0) {
-        column_count = sqrt(number_count);
-        if (column_count > 25) {
-            column_count = 1 + log2(number_count);
-            cout << "\nSturges rule\n";
-        } else {
-            cout << "\nEmperical formula\n";
+    double min = convert(temperatures[0], 'K').value;
+    double max = convert(temperatures[0], 'K').value;
+    for (Temperature number : temperatures) {
+        double current_number = convert(number, 'K').value;
+        if (current_number < min) {
+            min = current_number;
         }
-        cout << "Bins: " << column_count << '\n';
-    }
-    double min = numbers[0];
-    double max = numbers[0];
-    for (double number : numbers) {
-        if (number < min) {
-            min = number;
-        }
-        if (number > max) {
-            max = number;
+        if (current_number > max) {
+            max = current_number;
         }
     }
     for (size_t i = 0; i < number_count; i++) {
@@ -47,26 +36,42 @@ int main() {
         }
     }
     vector <size_t> counts(column_count);
-    for (double x : numbers) {
-        if (x != max) {
-            size_t column = (size_t)((x - min) / (max - min) * (column_count));
-            counter[column]++;
-        } else {
-            size_t column = (size_t)((x - min) / (max - min) * (column_count)) - 1;
+    for (Temperature number : temperatures) {
+        double current_number = convert(number, 'K').value;
+        size_t column = (size_t)((current_number - min)/(max - min)*column_count);
+        if (column == column_count) {
+            column--;
         }
         counts[column]++;
     }
+    const size_t screen_width = 80;
+    const size_t axis_width = 4;
+    const size_t chart_width = screen_width - axis_width;
+    size_t max_count = 0;
+    for (size_t count : counts) {
+        if (count > max_count) {
+            max_count = count;
+        }
+    }
+
+    const bool scaling_needed = max_count > chart_width;
     for (size_t count : counts) {
         if (count < 1000) {
             cout << ' ';
         }
-        if (count < 100) { cout << ' ';
+        if (count < 100) {
+            cout << ' ';
         }
         if (count < 10) {
             cout << ' ';
         }
         cout << count << "|";
-        for (size_t i = 0; i < number_count; i++) {
+        size_t height = count;
+        if (scaling_needed) {
+            const double scaling_factor = (double) chart_width / max_count;
+            height = (size_t)(count * scaling_factor);
+        }
+        for (size_t i = 0; i < height; i++) {
             cout << '*';
         }
         cout << '\n';
